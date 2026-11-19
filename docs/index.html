@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TORIHIKIGATE 取適門 | 2026年取適法（改正下請法）・従業員数基準・手形禁止 ローカル監査</title>
+  <meta name="description" content="ブラウザ完結・通信ゼロで2026年取適法（中小受託取引適正化法：資本金＋従業員数300人/100人基準・約束手形禁止・60日現金払・価格転嫁協議・特定運送委託・金型無償保管禁止）を監査します。" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead" data-ui="masthead">
+      <div class="brand-lockup">
+        <span class="hanko-seal" aria-hidden="true">取適</span>
+        <div>
+          <h1>TORIHIKIGATE <span class="title-sub">取適門</span></h1>
+          <p class="subtitle">2026年 取適法（改正下請法：300/100人基準・手形廃止・価格転嫁協議）ローカル監査ツール</p>
+        </div>
+      </div>
+      <div class="trust-badges">
+        <span class="trust-pill" data-ui="badge">100% ブラウザローカル計算</span>
+        <span class="trust-pill" data-ui="badge">取引データ・契約条件社外送信ゼロ</span>
+      </div>
+    </header>
+
+    <main class="workspace-grid">
+      <section class="panel input-panel" data-ui="panel">
+        <div class="panel-head">
+          <h2>1. 資本金・従業員数（300/100人基準）・支払条件・契約条項</h2>
+          <div class="preset-actions">
+            <button type="button" id="btn-sample-bad" class="btn-secondary" data-ui="btn">1000万円×420人/手形90日例</button>
+            <button type="button" id="btn-sample-good" class="btn-secondary" data-ui="btn">取適法 完全準拠例</button>
+          </div>
+        </div>
+
+        <div class="meta-grid">
+          <label>
+            委託事業者名（発注側）
+            <input id="in-org" type="text" value="東洋精密機器株式会社" />
+          </label>
+          <label>
+            中小受託事業者名（受注側）
+            <input id="in-supplier" type="text" value="大宮金型加工有限会社" />
+          </label>
+        </div>
+
+        <div class="meta-grid-3">
+          <label>
+            取引区分（従業員基準）
+            <select id="in-cat">
+              <option value="manufacturing_or_logistics">製造・修理・特定運送委託 (300人超→300人以下)</option>
+              <option value="service_or_content">役務提供・情報成果物作成 (100人超→100人以下)</option>
+            </select>
+          </label>
+          <label>
+            発注側 資本金 (JPY)
+            <input id="in-bcap" type="number" min="0" step="1000000" value="10000000" />
+          </label>
+          <label>
+            受注側 資本金 (JPY)
+            <input id="in-scap" type="number" min="0" step="1000000" value="10000000" />
+          </label>
+        </div>
+
+        <div class="meta-grid-3">
+          <label>
+            発注側 従業員数 (人)
+            <input id="in-bemp" type="number" min="0" step="10" value="420" />
+          </label>
+          <label>
+            受注側 従業員数 (人)
+            <input id="in-semp" type="number" min="0" step="5" value="85" />
+          </label>
+          <label>
+            支払サイト (受領後日数)
+            <input id="in-cycle" type="number" min="0" step="5" value="90" />
+          </label>
+        </div>
+
+        <div class="meta-grid-3">
+          <label>
+            支払方法（手形等チェック）
+            <select id="in-method">
+              <option value="promissory_note">約束手形払い (2026年禁止)</option>
+              <option value="discounted_emc">電債・割引料受注者負担 (禁止)</option>
+              <option value="factoring_supplier_fee">ファクタリング手数料控除 (禁止)</option>
+              <option value="bank_transfer">60日以内 銀行振込（手数料自社負担）</option>
+            </select>
+          </label>
+          <label>
+            量産後 金型無償保管 (か月)
+            <input id="in-mold" type="number" min="0" step="1" value="12" />
+          </label>
+          <div class="check-row" style="justify-content:end;">
+            <label class="inline-check">
+              <input id="in-freeze" type="checkbox" checked />
+              <span>労務費・原材料上昇の価格据置あり</span>
+            </label>
+          </div>
+        </div>
+
+        <label class="field-block">
+          発注書（4条書面）・基本契約書・支払条件テキスト
+          <textarea id="in-contract" rows="9" placeholder="4条書面交付・電磁的記録、60日以内現金振込、約束手形廃止・振込手数料委託者負担、価格転嫁協議義務、従業員数基準(300人/100人)、特定運送委託、金型返却/有償保管、5条書類2年保存を入力..."></textarea>
+        </label>
+
+        <div class="run-bar">
+          <button type="button" id="btn-audit" class="btn-primary" data-ui="btn">取適法 適用範囲・禁止行為監査を実行</button>
+        </div>
+      </section>
+
+      <section class="panel output-panel" data-ui="panel">
+        <div class="panel-head">
+          <h2>2. 適用範囲判定・手形/価格転嫁リスク</h2>
+          <div id="status-badge" class="score-pill" data-ui="score-pill">未診断</div>
+        </div>
+
+        <div class="summary-strip" data-ui="summary-strip">
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">取適法適合スコア</span>
+            <strong id="m-score" class="metric-val">—</strong>
+          </div>
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">適用区分（資本＋従業員）</span>
+            <strong id="m-scope" class="metric-val">—</strong>
+          </div>
+          <div class="metric-cell" data-ui="metric">
+            <span class="metric-label">支払・手形・価格/型</span>
+            <strong id="m-pay" class="metric-val">—</strong>
+          </div>
+        </div>
+
+        <h3>検出された2026年取適法（改正下請法）上の課題</h3>
+        <div id="findings-list" class="findings-list"></div>
+
+        <div class="draft-head">
+          <h3>自動生成『2026年取適法 遵守監査証明書』Markdown</h3>
+          <div class="draft-actions">
+            <button type="button" id="btn-copy-md" class="btn-secondary" data-ui="btn">Markdownをコピー</button>
+            <button type="button" id="btn-download-md" class="btn-secondary" data-ui="btn">.md 保存</button>
+          </div>
+        </div>
+        <pre id="md-output" class="code-box"><code></code></pre>
+      </section>
+    </main>
+
+    <footer class="site-footer" data-ui="footer">
+      <p>TORIHIKIGATE 取適門 — Horizon-Money Studio Track 2（完全クライアントサイド実行・通信ゼロ・2026年取適法自己点検ツール）</p>
+    </footer>
+  </div>
+
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>
